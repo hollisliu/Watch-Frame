@@ -32,7 +32,7 @@ class SelectViewController: UIViewController, UIImagePickerControllerDelegate, U
         if CGRectContainsPoint(singlePhotoView.bounds, locationPoint!){
             addFrameToSinglePhoto()
         }else{
-            //muti photo
+            self.performSegueWithIdentifier("toAll", sender: self)
         }
     }
     
