@@ -18,6 +18,7 @@ class SingleFrameViewController: UIViewController {
     
     var imageToExport: UIImage?
     
+    //MARK: - VC Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,28 +31,38 @@ class SingleFrameViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         navigationController!.navigationBarHidden = false
+        
+        if imageToExport != nil{
+            exportPhoto()
+            popupAlert()
+        }
     }
     
+    //MARK: - Image Export
     @IBAction func export(sender: UIBarButtonItem) {
         let activityViewController = UIActivityViewController(activityItems: [imageToExport!], applicationActivities: nil)
-        navigationController?.presentViewController(activityViewController, animated: true) {
-            // ...
+        navigationController?.presentViewController(activityViewController, animated: true, completion: nil)
+    }
+    
+    func exportPhoto(){
+        if let img = imageToExport{
+            UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
         }
+    }
+    
+    func popupAlert(){
+        let optionMenu = UIAlertController(title: nil, message: NSLocalizedString("The framed watch screenshot has been exported to your photo library.", comment: ""), preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.navigationController?.popViewControllerAnimated(true)
+        })
+        optionMenu.addAction(cancelAction)
+        
+        self.presentViewController(optionMenu, animated: true, completion: nil)
+    }
 
-    }
-    
-    func setupLayer(){
-        let gradientLayerGreen = CAGradientLayer()
-        gradientLayerGreen.frame = self.view.bounds
-        
-        gradientLayerGreen.colors = [UIColor(red: 189/255.0, green: 127/255.0, blue: 244/255.0, alpha: 0.7).CGColor as AnyObject, UIColor(red: 144/255.0, green: 19/255.0, blue: 254/255.0, alpha: 0.7).CGColor as AnyObject]
-        
-        gradientLayerGreen.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayerGreen.endPoint = CGPoint(x: 0.75, y: 1)
-        
-        self.view.layer.addSublayer(gradientLayerGreen)
-    }
-    
+    //MARK: - Convert Image
     func creatFinalView(){
         var finalView = UIImageView()
         
@@ -90,6 +101,19 @@ class SingleFrameViewController: UIViewController {
         tempView.frame.origin = CGPoint(x: view.center.x - (tempView.bounds.size.width/2.0), y: view.center.y - (tempView.bounds.size.height/2.0))
         
         return tempView
+    }
+    
+    //MARK: - Layer Setup
+    func setupLayer(){
+        let gradientLayerGreen = CAGradientLayer()
+        gradientLayerGreen.frame = self.view.bounds
+        
+        gradientLayerGreen.colors = [UIColor(red: 189/255.0, green: 127/255.0, blue: 244/255.0, alpha: 0.7).CGColor as AnyObject, UIColor(red: 144/255.0, green: 19/255.0, blue: 254/255.0, alpha: 0.7).CGColor as AnyObject]
+        
+        gradientLayerGreen.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayerGreen.endPoint = CGPoint(x: 0.75, y: 1)
+        
+        self.view.layer.addSublayer(gradientLayerGreen)
     }
     
 }

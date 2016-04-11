@@ -128,7 +128,7 @@ class SelectViewController: UIViewController, UIImagePickerControllerDelegate, U
         let batchLabel = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 140, height: 70)))
         batchLabel.center = CGPoint(x: singlePhotoView.center.x, y: singlePhotoView.center.y + 40)
         
-        batchLabel.text = "Add Frames to All Watch Screenshots on This iPhone"
+        batchLabel.text = "Add Frames to Multiple Watch Screenshots"
         batchLabel.textColor = UIColor.whiteColor()
         batchLabel.textAlignment = NSTextAlignment.Center
         batchLabel.adjustsFontSizeToFitWidth = true
